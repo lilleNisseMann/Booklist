@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Log In</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="account" id="account"></div>
+      <a href="/" class="brand">📚 My Bookshelf</a>
+      <div class="nav-links">
+        <a href="/">My books</a>
+        <a href="/add.html">Add new book</a>
+        <a href="/stats.html">Statistics</a>
+        <a href="/fun.html">Something fun</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container auth-page">
+    <section class="card auth-card">
+      <div class="auth-tabs" role="tablist">
+        <button type="button" role="tab" class="auth-tab" id="tab-login" aria-selected="true">Log in</button>
+        <button type="button" role="tab" class="auth-tab" id="tab-register" aria-selected="false">Create account</button>
+      </div>
+
+      <form id="auth-form" class="auth-form" novalidate>
+        <h1 id="auth-title">Welcome back</h1>
+
+        <label>
+          Username
+          <input type="text" id="username" autocomplete="username" required>
+        </label>
+
+        <label>
+          Password
+          <input type="password" id="password" autocomplete="current-password" required>
+        </label>
+
+        <ul class="password-rules" id="password-rules" hidden>
+          <li data-rule="length">At least 7 characters</li>
+          <li data-rule="capital">1 capital letter (A–Z)</li>
+          <li data-rule="special">1 special character (like ! ? # @)</li>
+        </ul>
+
+        <label id="confirm-wrap" hidden>
+          Repeat password
+          <input type="password" id="confirm" autocomplete="new-password">
+        </label>
+
+        <p class="error" id="error" hidden></p>
+
+        <button type="submit" class="primary" id="submit-btn">Log in</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="login.js"></script>
+</body>
+</html>

@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add Book</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="account" id="account"></div>
+      <a href="/" class="brand">📚 My Bookshelf</a>
+      <div class="nav-links">
+        <a href="/">My books</a>
+        <a href="/add.html" aria-current="page">Add new book</a>
+        <a href="/stats.html">Statistics</a>
+        <a href="/fun.html">Something fun</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <section class="card">
+      <h1 id="form-title" class="form-title">Add a book</h1>
+      <form id="book-form" novalidate>
+        <input type="hidden" id="book-id">
+
+        <label class="full">
+          Book name
+          <input type="text" id="name" placeholder="e.g. The Hobbit" required>
+        </label>
+
+        <label class="full">
+          <span>Author <span class="optional">(optional)</span></span>
+          <input type="text" id="author" list="author-list" placeholder="e.g. J.R.R. Tolkien" maxlength="255">
+          <datalist id="author-list"></datalist>
+        </label>
+
+        <label>
+          <span>Series <span class="optional">(optional)</span></span>
+          <input type="text" id="series" list="series-list" placeholder="e.g. Harry Potter" maxlength="255">
+          <datalist id="series-list"></datalist>
+        </label>
+
+        <label>
+          <span>Number in series <span class="optional">(optional)</span></span>
+          <input type="number" id="series-number" min="1" placeholder="e.g. 2">
+        </label>
+
+        <fieldset class="full">
+          <legend>Status</legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="status" value="to-read"><span>🔖 To read</span></label>
+            <label class="chip"><input type="radio" name="status" value="reading" checked><span>📖 Reading</span></label>
+            <label class="chip"><input type="radio" name="status" value="completed"><span>✅ Completed</span></label>
+            <label class="chip"><input type="radio" name="status" value="dropped"><span>🛑 Dropped</span></label>
+          </div>
+        </fieldset>
+
+        <div class="full cover-field">
+          <span class="field-title">Cover image <span class="optional">(optional)</span></span>
+          <div class="cover-row">
+            <img id="cover-preview" class="cover-thumb" alt="Cover preview" hidden>
+            <label class="ghost-button">
+              <input type="file" id="cover" accept="image/*" hidden>
+              <span>Upload image</span>
+            </label>
+            <span class="optional">or</span>
+            <div class="cover-url">
+              <input type="url" id="cover-url" placeholder="Paste image link (https://…)">
+              <button type="button" class="ghost small" id="cover-url-btn">Use link</button>
+            </div>
+            <button type="button" class="ghost small danger" id="cover-remove" hidden>Remove</button>
+          </div>
+        </div>
+
+        <label>
+          Start date
+          <input type="date" id="start-date">
+        </label>
+
+        <label>
+          End date
+          <input type="date" id="end-date">
+        </label>
+
+        <label>
+          <span>Total pages <span class="optional" id="pages-optional" hidden>(optional for To read)</span></span>
+          <input type="number" id="total-pages" min="0" placeholder="e.g. 310">
+        </label>
+
+        <label>
+          Page I'm on now
+          <input type="number" id="current-page" min="0" placeholder="e.g. 42" value="0">
+        </label>
+
+        <fieldset class="full">
+          <legend>Format</legend>
+          <div class="chips">
+            <label class="chip"><input type="radio" name="format" value="Electronic" checked><span>📱 Electronic</span></label>
+            <label class="chip"><input type="radio" name="format" value="Physical (library)"><span>🏛️ Physical – library</span></label>
+            <label class="chip"><input type="radio" name="format" value="Physical (own)"><span>📖 Physical – own</span></label>
+          </div>
+        </fieldset>
+
+        <label>
+          Language
+          <select id="language">
+            <option>English</option>
+            <option>Swedish</option>
+            <option>Norwegian</option>
+            <option>Danish</option>
+            <option>Finnish</option>
+            <option>German</option>
+            <option>French</option>
+            <option>Spanish</option>
+            <option>Italian</option>
+            <option>Portuguese</option>
+            <option>Dutch</option>
+            <option>Polish</option>
+            <option>Ukrainian</option>
+            <option>Japanese</option>
+            <option>Chinese</option>
+            <option>Korean</option>
+            <option value="__other">Other…</option>
+          </select>
+        </label>
+
+        <label id="other-language-wrap" hidden>
+          Type the language
+          <input type="text" id="other-language" placeholder="Type a language">
+        </label>
+
+        <label class="new-row">
+          <span>Type <span class="optional">(optional)</span></span>
+          <select id="type">
+            <option value="">— Choose type —</option>
+            <option>Novel</option>
+            <option>Short stories</option>
+            <option>Comic / Graphic novel</option>
+            <option>Manga</option>
+            <option>Poetry</option>
+            <option>Non-fiction</option>
+            <option>Biography / Memoir</option>
+            <option>Textbook</option>
+            <option value="__other">Other…</option>
+          </select>
+        </label>
+
+        <label id="other-type-wrap" hidden>
+          Type the book type
+          <input type="text" id="other-type" placeholder="e.g. Play">
+        </label>
+
+        <fieldset class="full">
+          <legend><span>Genres <span class="optional">(pick as many as you like)</span></span></legend>
+          <div class="chips genre-chips" id="genre-chips"></div>
+          <div class="add-genre">
+            <input type="text" id="new-genre" placeholder="Add your own genre" maxlength="50">
+            <button type="button" class="ghost small" id="add-genre-btn">Add</button>
+          </div>
+        </fieldset>
+
+        <fieldset class="full">
+          <legend>Score (1–10)</legend>
+          <div class="chips score-chips" id="score-chips">
+            <label class="chip"><input type="radio" name="score" value="" checked><span>No score</span></label>
+          </div>
+        </fieldset>
+
+        <div class="full">
+          <div class="progress-label">
+            <span>Progress</span>
+            <span id="form-progress-text">0%</span>
+          </div>
+          <div class="progress"><div class="progress-fill" id="form-progress-fill"></div></div>
+        </div>
+
+        <p class="error full" id="error" hidden></p>
+
+        <div class="actions full">
+          <button type="submit" class="primary" id="submit-btn">Add book</button>
+          <a href="/" class="button ghost">Cancel</a>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="common.js"></script>
+  <script src="add.js"></script>
+</body>
+</html>

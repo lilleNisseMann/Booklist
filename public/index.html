@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>My Bookshelf</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <div class="account" id="account"></div>
+      <a href="/" class="brand">📚 My Bookshelf</a>
+      <div class="nav-links">
+        <a href="/" aria-current="page">My books</a>
+        <a href="/add.html">Add new book</a>
+        <a href="/stats.html">Statistics</a>
+        <a href="/fun.html">Something fun</a>
+      </div>
+      <label class="year-picker">
+        <span class="visually-hidden">Year</span>
+        <select id="year-select"></select>
+      </label>
+    </div>
+  </nav>
+
+  <main class="container wide">
+    <header class="page-header">
+      <div>
+        <h1>My books <span class="count" id="count"></span></h1>
+        <p class="subtitle" id="subtitle"></p>
+      </div>
+    </header>
+
+    <div class="toolbar">
+      <div class="status-tabs" id="status-tabs"></div>
+      <label class="sort-picker">
+        Sort by
+        <select id="sort-select">
+          <option value="added">Recently added</option>
+          <option value="score">Score (high → low)</option>
+          <option value="genre">Genre</option>
+          <option value="author">Author</option>
+          <option value="series">Series</option>
+          <option value="language">Language</option>
+          <option value="year">Year read</option>
+          <option value="name">Name (A → Z)</option>
+        </select>
+      </label>
+    </div>
+
+    <div id="book-list" class="book-list"></div>
+    <div id="empty" class="empty" hidden>
+      <p id="empty-text">No books yet.</p>
+      <a href="/add.html" class="button primary" id="empty-add">Add your first book</a>
+    </div>
+  </main>
+
+  <template id="book-template">
+    <article class="book-tile">
+      <div class="tile-cover">
+        <img class="cover-img" alt="" hidden>
+        <div class="cover-placeholder"><span class="placeholder-title"></span></div>
+        <div class="tile-actions">
+          <a class="icon-btn edit" aria-label="Edit book" title="Edit">
+            <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><path d="M11.5 2.5l2 2L6 12H4v-2z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+          </a>
+          <button type="button" class="icon-btn more" aria-label="More options" aria-haspopup="true" aria-expanded="false" title="More">
+            <svg viewBox="0 0 16 16" width="15" height="15" aria-hidden="true"><circle cx="3" cy="8" r="1.4" fill="currentColor"/><circle cx="8" cy="8" r="1.4" fill="currentColor"/><circle cx="13" cy="8" r="1.4" fill="currentColor"/></svg>
+          </button>
+          <div class="tile-menu" hidden>
+            <div class="menu-page">
+              <label>Page I'm on
+                <span class="menu-page-row">
+                  <input type="number" min="0" class="page-input">
+                  <span class="menu-total"></span>
+                </span>
+              </label>
+              <button type="button" class="primary small save-page">Save page</button>
+            </div>
+            <button type="button" class="menu-item danger delete">Delete book</button>
+          </div>
+        </div>
+      </div>
+      <div class="tile-body">
+        <h3 class="book-name"></h3>
+        <p class="book-author" hidden></p>
+        <div class="tags"></div>
+        <div class="tile-footer">
+          <span class="status-pill"><span class="dot" aria-hidden="true"></span><span class="status-text"></span></span>
+          <span class="tile-score" hidden></span>
+        </div>
+        <div class="tile-progress" hidden>
+          <div class="progress"><div class="progress-fill"></div></div>
+          <span class="tile-percent"></span>
+        </div>
+      </div>
+    </article>
+  </template>
+
+  <script src="common.js"></script>
+  <script src="books.js"></script>
+</body>
+</html>
