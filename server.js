@@ -187,6 +187,22 @@ function parseBook(body) {
 const db = await initDatabase();
 const app = express();
 
+// When shared through a tunnel (Cloudflare Tunnel / ngrok), every request reaches
+// the server from the tunnel program on this computer. Trusting that local hop
+// lets Express read the visitor's real address and https from the headers it
+// adds, so the login lockout applies per visitor instead of to everyone at once.
+app.set("trust proxy", "loopback");
+
+// Basic safety headers for when the site is reachable from the internet.
+app.use((req, res, next) => {
+  res.set({
+    "X-Content-Type-Options": "nosniff", // don't guess file types
+    "X-Frame-Options": "DENY", // don't allow the site inside other sites' frames
+    "Referrer-Policy": "same-origin",
+  });
+  next();
+});
+
 app.use(express.json({ limit: "5mb" }));
 
 // Pages that need a login are checked here, before they're sent, so a
@@ -244,7 +260,7 @@ app.post("/api/auth/register", async (req, res) => {
     if (err.code === "ER_DUP_ENTRY") return res.status(409).json({ error: "That username is taken." });
     throw err;
   }
-  await startSession(db, res, user.id);
+  await startSession(db, req, res, user.id);
   res.status(201).json(publicUser(user));
 });
 
@@ -260,7 +276,7 @@ app.post("/api/auth/login", async (req, res) => {
     return res.status(401).json({ error: "Wrong username or password." });
   }
   failedLogins.delete(req.ip);
-  await startSession(db, res, user.id);
+  await startSession(db, req, res, user.id);
   res.json(publicUser(user));
 });
 

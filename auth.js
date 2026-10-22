@@ -114,7 +114,7 @@ function readCookie(req, name) {
   return null;
 }
 
-function setSessionCookie(res, token, maxAgeSeconds) {
+function setSessionCookie(req, res, token, maxAgeSeconds) {
   const parts = [
     `${SESSION_COOKIE}=${token}`,
     "Path=/",
@@ -122,23 +122,25 @@ function setSessionCookie(res, token, maxAgeSeconds) {
     "SameSite=Lax", // not sent with requests from other sites
     `Max-Age=${maxAgeSeconds}`,
   ];
-  if (process.env.COOKIE_SECURE === "true") parts.push("Secure"); // turn on when served over https
+  // Secure = only sent over https. Turned on automatically when the visitor came in
+  // over https (like a tunnel link), so plain http on localhost keeps working.
+  if (req.secure || process.env.COOKIE_SECURE === "true") parts.push("Secure");
   res.setHeader("Set-Cookie", parts.join("; "));
 }
 
-export async function startSession(db, res, userId) {
+export async function startSession(db, req, res, userId) {
   const token = randomBytes(32).toString("hex");
   await db.query(
     "INSERT INTO sessions (token_hash, user_id, expires_at) VALUES (?, ?, NOW() + INTERVAL ? DAY)",
     [hashToken(token), userId, SESSION_DAYS]
   );
-  setSessionCookie(res, token, SESSION_DAYS * 24 * 60 * 60);
+  setSessionCookie(req, res, token, SESSION_DAYS * 24 * 60 * 60);
 }
 
 export async function endSession(db, req, res) {
   const token = readCookie(req, SESSION_COOKIE);
   if (token) await db.query("DELETE FROM sessions WHERE token_hash = ?", [hashToken(token)]);
-  setSessionCookie(res, "", 0);
+  setSessionCookie(req, res, "", 0);
 }
 
 // Middleware: sets req.user ({ id, username, role }) when the visitor is logged in.

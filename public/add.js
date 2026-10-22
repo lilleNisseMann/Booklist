@@ -205,7 +205,10 @@ const pagesOptional = document.getElementById("pages-optional");
 
 // "To read" books don't need a page count yet.
 function updatePagesHint() {
-  pagesOptional.hidden = form.elements.status.value !== "to-read";
+  const toRead = form.elements.status.value === "to-read";
+  pagesOptional.hidden = !toRead;
+  document.getElementById("pages-label").classList.toggle("required", !toRead);
+  if (toRead) fields.totalPages.classList.remove("missing");
 }
 
 // Marking a book completed fills in the last page and today's end date;
@@ -269,6 +272,15 @@ form.addEventListener("submit", async (e) => {
     // A pasted link counts even if "Use link" wasn't clicked.
     cover: /^https?:\/\//i.test(coverUrlInput.value.trim()) ? coverUrlInput.value.trim() : currentCover,
   };
+
+  // The fields marked with * must be filled in.
+  const required = [fields.name];
+  if (book.status !== "to-read") required.push(fields.totalPages);
+  if (fields.language.value === "__other") required.push(fields.otherLanguage);
+  if (flagMissing(required)) {
+    showError("Please fill in the fields marked with *.");
+    return;
+  }
 
   const error = validate(book);
   errorEl.hidden = !error;

@@ -17,6 +17,25 @@ async function request(url, options = {}) {
   return res.status === 204 ? null : res.json();
 }
 
+// Outlines the empty fields in red and jumps to the first one. Returns true if any
+// were empty. The outline goes away as soon as you type in the field.
+function flagMissing(inputs) {
+  const empty = inputs.filter((input) => !input.value.trim());
+  for (const input of inputs) {
+    const missing = empty.includes(input);
+    input.classList.toggle("missing", missing);
+    input.setAttribute("aria-invalid", String(missing));
+    if (missing) {
+      input.addEventListener("input", () => {
+        input.classList.remove("missing");
+        input.setAttribute("aria-invalid", "false");
+      }, { once: true });
+    }
+  }
+  empty[0]?.focus();
+  return empty.length > 0;
+}
+
 function goToLogin() {
   location.href = `/login.html?next=${encodeURIComponent(location.pathname + location.search)}`;
 }

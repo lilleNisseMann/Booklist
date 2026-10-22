@@ -23,11 +23,12 @@
   <main class="container">
     <section class="card">
       <h1 id="form-title" class="form-title">Add a book</h1>
+      <p class="required-note"><span class="required-mark" aria-hidden="true">*</span> = must be filled in</p>
       <form id="book-form" novalidate>
         <input type="hidden" id="book-id">
 
         <label class="full">
-          Book name
+          <span class="required">Book name</span>
           <input type="text" id="name" placeholder="e.g. The Hobbit" required>
         </label>
 
@@ -86,7 +87,7 @@
         </label>
 
         <label>
-          <span>Total pages <span class="optional" id="pages-optional" hidden>(optional for To read)</span></span>
+          <span><span class="required" id="pages-label">Total pages</span> <span class="optional" id="pages-optional" hidden>(optional for To read)</span></span>
           <input type="number" id="total-pages" min="0" placeholder="e.g. 310">
         </label>
 
@@ -128,7 +129,7 @@
         </label>
 
         <label id="other-language-wrap" hidden>
-          Type the language
+          <span class="required">Type the language</span>
           <input type="text" id="other-language" placeholder="Type a language">
         </label>
 

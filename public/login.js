@@ -61,7 +61,9 @@ form.addEventListener("submit", async (e) => {
   const username = usernameInput.value.trim();
   const password = passwordInput.value;
 
-  if (!username || !password) return showError("Please fill in your username and password.");
+  const required = [usernameInput, passwordInput];
+  if (mode === "register") required.push(confirmInput);
+  if (flagMissing(required)) return showError("Please fill in the fields marked with *.");
   if (mode === "register") {
     if (!/^[A-Za-z0-9_.-]{3,30}$/.test(username)) {
       return showError("Username must be 3–30 characters: letters, numbers, _ . or -");

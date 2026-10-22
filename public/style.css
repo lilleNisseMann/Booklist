@@ -404,6 +404,16 @@ button:disabled { opacity: 0.6; cursor: default; }
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.18);
 }
 
+/* ----- Required fields ----- */
+
+.required::after { content: " *"; color: var(--danger); font-weight: 700; }
+.required-mark { color: var(--danger); font-weight: 700; }
+.required-note { margin: -8px 0 16px; font-size: 0.85rem; color: var(--muted); }
+input.missing, select.missing {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 1px var(--danger);
+}
+
 /* ----- Account (top left) ----- */
 
 .account { position: relative; display: flex; align-items: center; }
