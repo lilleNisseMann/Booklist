@@ -2,7 +2,7 @@
 
 A small website for keeping track of the books you read: what you're reading now, what's
 next, what you finished or dropped, with scores, genres, series, covers and a summary to give you stats on how much etc you read for a certain period.
-This site is just so each individual user can se an update their own book it is not possible to see other users books read, but the admin can only change name, password or delete users.
+This site is just so each individual user can se and update their own book it is not possible to see what other users read, but the admin can change name, password or delete users.
 
 - **Joining a bookshelf someone shared with you?** Jump to [For friends: how to join](#for-friends-how-to-join).
 - **Hosting it yourself?** Start with [For the host: set it up](#for-the-host-set-it-up).
