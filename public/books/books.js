@@ -223,7 +223,7 @@ function bookCard(book) {
 
   // ----- Edit button and the ••• menu -----
 
-  node.querySelector(".edit").href = `/add.html?id=${encodeURIComponent(book.id)}`;
+  node.querySelector(".edit").href = `/add/?id=${encodeURIComponent(book.id)}`;
 
   const moreBtn = node.querySelector(".more");
   const menu = node.querySelector(".tile-menu");

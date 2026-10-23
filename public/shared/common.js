@@ -17,8 +17,8 @@ async function request(url, options = {}) {
   return res.status === 204 ? null : res.json();
 }
 
-// Outlines the empty fields in red and jumps to the first one. Returns true if any
-// were empty. The outline goes away as soon as you type in the field.
+/* Outlines the empty fields in red and jumps to the first one. Returns true if any
+ were empty. The outline goes away as soon as you type in the field.*/
 function flagMissing(inputs) {
   const empty = inputs.filter((input) => !input.value.trim());
   for (const input of inputs) {
@@ -37,7 +37,7 @@ function flagMissing(inputs) {
 }
 
 function goToLogin() {
-  location.href = `/login.html?next=${encodeURIComponent(location.pathname + location.search)}`;
+  location.href = `/login/?next=${encodeURIComponent(location.pathname + location.search)}`;
 }
 
 // Book requests; being logged out sends you to the login page.
@@ -77,7 +77,7 @@ function drawAccount(slot, user) {
   if (!user) {
     const login = document.createElement("a");
     login.className = "button primary small";
-    login.href = "/login.html";
+    login.href = "/login/";
     login.textContent = "Log in";
     slot.replaceChildren(login);
     return;
@@ -95,7 +95,7 @@ function drawAccount(slot, user) {
   menu.hidden = true;
   if (user.role === "admin") {
     const admin = document.createElement("a");
-    admin.href = "/admin.html";
+    admin.href = "/admin/";
     admin.className = "menu-item";
     admin.textContent = "🛡️ Admin";
     menu.appendChild(admin);
@@ -107,7 +107,7 @@ function drawAccount(slot, user) {
   logout.addEventListener("click", async () => {
     await request("/api/auth/logout", { method: "POST" }).catch(() => {});
     rememberUser(null);
-    location.href = "/login.html";
+    location.href = "/login/";
   });
   menu.appendChild(logout);
 
@@ -130,7 +130,7 @@ function renderAccount() {
   const slot = document.getElementById("account");
   if (!slot) return;
   // The server only shows the login page to logged-out visitors.
-  const cached = location.pathname === "/login.html" ? null : cachedUser();
+  const cached = location.pathname === "/login/" ? null : cachedUser();
   drawAccount(slot, cached); // instantly, from memory
 
   currentUserPromise.then((user) => {
@@ -157,9 +157,9 @@ const STATUS_LABELS = {
 
 const currentYear = new Date().getFullYear();
 
-// Completed books belong to the year they ended, dropped books to the year
-// they were stopped (end date). Books still being read (or waiting to be
-// read) always count as the current year.
+/* Completed books belong to the year they ended, dropped books to the year
+they were stopped (end date). Books still being read (or waiting to be
+read) always count as the current year.*/
 function yearOf(book) {
   if (book.status === "reading" || book.status === "to-read") return currentYear;
   const date = book.endDate || book.startDate;

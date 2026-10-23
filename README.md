@@ -128,4 +128,29 @@ Click **👤 your name → 🛡️ Admin** in the top left corner. There you can
 
 ---
 
+## Project structure
+
+Each page has its own folder in `public/` (what the browser gets), and each part of the
+server has its own folder in `server/`.
+
+```
+server.js              starts the site (npm start)
+server/
+  db.js                MySQL connection; creates and updates the tables
+  pages.js             which pages need a login, and serving the pages
+  auth/                accounts: passwords, sessions, sign up / log in / log out
+  books/               the books API, and the rules for what a book can contain
+  admin/               the admin API: rename, change role, new password, delete users
+public/
+  shared/              code and styles used by every page (common.js, style.css)
+  books/               "My books" — the home page, at /
+  add/                 "Add new book" and editing a book, at /add/
+  stats/               "Statistics", at /stats/
+  admin/               the admin page, at /admin/
+  login/               log in and create account, at /login/
+  fun/                 "Something fun", at /fun/
+```
+
+---
+
 See [CHANGELOG.md](CHANGELOG.md) for what's changed.
